@@ -96,6 +96,7 @@ const Settings = () => {
           open={showPinChange}
           onClose={() => setShowPinChange(false)}
           onSuccess={() => setShowPinChange(false)}
+          isChangingPin={true}
         />
       </motion.div>
     </div>

@@ -171,7 +171,7 @@ const WithdrawDialog = ({ children }: WithdrawDialogProps) => {
                     <Button
                       key={currency.value}
                       variant="outline"
-                      className="h-auto p-4 justify-between"
+                      className="h-auto p-4 justify-between hover:bg-gradient-to-r hover:from-primary/20 hover:via-transparent hover:to-primary/20 transition-all duration-300"
                       onClick={() => handleCurrencySelect(currency.value)}
                     >
                       <div className="flex items-center gap-3">

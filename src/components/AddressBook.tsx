@@ -182,16 +182,6 @@ const AddressBook = ({ open, onClose, onSelect }: AddressBookProps) => {
         <DialogHeader>
           <DialogTitle className="flex items-center justify-between">
             Адресная книга
-            {!showAddForm && (
-              <Button
-                size="sm"
-                onClick={() => setShowAddForm(true)}
-                className="gap-2"
-              >
-                <Plus className="w-4 h-4" />
-                Добавить
-              </Button>
-            )}
           </DialogTitle>
         </DialogHeader>
         
@@ -324,13 +314,17 @@ const AddressBook = ({ open, onClose, onSelect }: AddressBookProps) => {
             {addresses.length === 0 && (
               <div className="text-center py-8 text-muted-foreground">
                 <p>Адресная книга пуста</p>
+              </div>
+            )}
+            
+            {!showAddForm && (
+              <div className="mt-4">
                 <Button
-                  variant="outline"
                   onClick={() => setShowAddForm(true)}
-                  className="mt-4 gap-2"
+                  className="w-full gap-2"
                 >
                   <Plus className="w-4 h-4" />
-                  Добавить первый адрес
+                  Добавить адрес
                 </Button>
               </div>
             )}

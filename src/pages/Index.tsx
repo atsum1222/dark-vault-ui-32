@@ -19,6 +19,7 @@ const Index = () => {
           <ActionButtons />
           <HoldsTable />
           <WalletHistory />
+          <div className="pb-8" />
         </div>
       </motion.div>
       <Toaster />

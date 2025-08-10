@@ -9,17 +9,24 @@ interface PinCodeDialogProps {
   open: boolean;
   onClose: () => void;
   onSuccess: () => void;
+  isChangingPin?: boolean;
 }
 
-const PinCodeDialog = ({ open, onClose, onSuccess }: PinCodeDialogProps) => {
+const PinCodeDialog = ({ open, onClose, onSuccess, isChangingPin = false }: PinCodeDialogProps) => {
   const [pin, setPin] = useState(["", "", "", ""]);
   const [isLoading, setIsLoading] = useState(false);
+  const [step, setStep] = useState(1); // 1: old pin, 2: new pin, 3: confirm new pin
+  const [oldPin, setOldPin] = useState("");
+  const [newPin, setNewPin] = useState("");
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const { toast } = useToast();
 
   useEffect(() => {
     if (open) {
       setPin(["", "", "", ""]);
+      setStep(1);
+      setOldPin("");
+      setNewPin("");
     }
   }, [open]);
 
@@ -65,26 +72,65 @@ const PinCodeDialog = ({ open, onClose, onSuccess }: PinCodeDialogProps) => {
       setIsLoading(false);
       const pinCode = pin.join("");
       
-      // For demo purposes, accept any 4-digit PIN
-      if (pinCode.length === 4) {
-        onSuccess();
+      if (!isChangingPin) {
+        // Regular PIN verification
+        if (pinCode.length === 4) {
+          onSuccess();
+        } else {
+          toast({
+            title: "Неверный PIN-код",
+            description: "Попробуйте еще раз",
+            variant: "destructive"
+          });
+          setPin(["", "", "", ""]);
+        }
       } else {
-        toast({
-          title: "Неверный PIN-код",
-          description: "Попробуйте еще раз",
-          variant: "destructive"
-        });
-        setPin(["", "", "", ""]);
-        inputRefs.current[0]?.focus();
+        // PIN change process
+        if (step === 1) {
+          // Verify old PIN
+          setOldPin(pinCode);
+          setPin(["", "", "", ""]);
+          setStep(2);
+        } else if (step === 2) {
+          // Set new PIN
+          setNewPin(pinCode);
+          setPin(["", "", "", ""]);
+          setStep(3);
+        } else if (step === 3) {
+          // Confirm new PIN
+          if (pinCode === newPin) {
+            toast({
+              title: "Успешно",
+              description: "PIN-код изменен"
+            });
+            onSuccess();
+          } else {
+            toast({
+              title: "Ошибка",
+              description: "PIN-коды не совпадают",
+              variant: "destructive"
+            });
+            setPin(["", "", "", ""]);
+            setStep(2);
+            setNewPin("");
+          }
+        }
       }
     }, 1000);
+  };
+
+  const getTitle = () => {
+    if (!isChangingPin) return "Введите PIN-код";
+    if (step === 1) return "Введите старый PIN-код";
+    if (step === 2) return "Введите новый PIN-код";
+    return "Подтвердите новый PIN-код";
   };
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-sm">
         <DialogHeader>
-          <DialogTitle className="text-center">Введите PIN-код</DialogTitle>
+          <DialogTitle className="text-center">{getTitle()}</DialogTitle>
         </DialogHeader>
         
         <motion.div

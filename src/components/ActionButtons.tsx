@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import DepositDialog from "./DepositDialog";
 import WithdrawDialog from "./WithdrawDialog";
+import ExchangeDialog from "./ExchangeDialog";
 
 const ActionButtons = () => {
   const navigate = useNavigate();
@@ -50,11 +51,30 @@ const ActionButtons = () => {
         </motion.div>
       </motion.div>
 
+      {/* Exchange button */}
+      <motion.div
+        initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
+        transition={{ delay: 0.75, type: "spring", stiffness: 200 }}
+      >
+        <ExchangeDialog>
+          <Button
+            variant="outline"
+            className="w-full h-12 gap-2"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m0-4l4-4" />
+            </svg>
+            Обменять
+          </Button>
+        </ExchangeDialog>
+      </motion.div>
+
       {/* Settings button */}
       <motion.div
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
-        transition={{ delay: 0.8, type: "spring", stiffness: 200 }}
+        transition={{ delay: 0.85, type: "spring", stiffness: 200 }}
       >
         <Button
           variant="outline"

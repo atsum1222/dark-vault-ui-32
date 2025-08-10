@@ -45,13 +45,8 @@ const WalletHeader = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4 }}
-          className="text-right"
-        >
-          <div className="flex items-center gap-1 text-primary">
-            <TrendingUp className="w-4 h-4" />
-            <span className="text-xs">+2.45%</span>
-          </div>
-        </motion.div>
+          className="w-10 h-10"
+        />
       </div>
       
       <motion.div
